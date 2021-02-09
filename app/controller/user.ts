@@ -1,15 +1,44 @@
 import { Controller } from 'egg';
 import NormalUserRule from '../validate/normalUserRule';
+import EmailUserRule from '../validate/emailUserRule';
+import PhoneUserRule from '../validate/phoneUserRule';
+const enum RegisterTypeEnum {
+  Normal = 'normal',
+  Email = 'email',
+  Phone ='phone'
+}
 export default class UserController extends Controller {
   public async create() {
     const { ctx } = this;
-    const data = ctx.request.body;
     try {
-      console.log(ctx.validate(NormalUserRule, data));
+      this.validateUserInfo();
       ctx.body = '注册';
     } catch (e) {
-      console.log(e);
+      if (e.errors) {
+        ctx.body = e.errors;
+      } else {
+        ctx.body = e.message;
+      }
     }
+  }
 
+  // 校验注册数据
+  private validateUserInfo() {
+    const { ctx } = this;
+    const data = ctx.request.body;
+    const registerType = data.registerType;
+    switch (registerType) {
+      case RegisterTypeEnum.Normal:
+        ctx.validate(NormalUserRule, data);
+        break;
+      case RegisterTypeEnum.Email:
+        ctx.validate(EmailUserRule, data);
+        break;
+      case RegisterTypeEnum.Phone:
+        ctx.validate(PhoneUserRule, data);
+        break;
+      default:
+        throw new Error('注册类型不存在');
+    }
   }
 }
