@@ -1,10 +1,9 @@
 export default {
-  username: {
+  email: {
     type: 'string',
     trim: true,
-    // 只能是数字或字母
-    format: /^[A-Za-z0-9]{6,}$/,
-    message: '用户名不符合要求',
+    format: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+    message: '邮箱验不符合要求',
   },
   password: {
     type: 'string',

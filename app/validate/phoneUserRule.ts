@@ -1,10 +1,9 @@
 export default {
-  username: {
+  phone: {
     type: 'string',
     trim: true,
-    // 只能是数字或字母
-    format: /^[A-Za-z0-9]{6,}$/,
-    message: '用户名不符合要求',
+    format: /^1[3456789]\d{9}$/,
+    message: '手机不符合要求',
   },
   password: {
     type: 'string',
