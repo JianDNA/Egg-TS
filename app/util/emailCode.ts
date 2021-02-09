@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+import nodemailer = require('nodemailer');
 
 let transporter;
 export default {

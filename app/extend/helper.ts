@@ -1,5 +1,6 @@
 import ImageCode from '../util/imageCode';
 import EmailCode from '../util/emailCode';
+import SmsCode from '../util/smsCode';
 module.exports = {
   createImageCode() {
     return ImageCode.createImageCode(this.ctx);
@@ -12,5 +13,12 @@ module.exports = {
   },
   verifyEmailCode(clientCode) {
     EmailCode.verifyEmailCode(this.ctx, clientCode);
+  },
+  async sendSmsCode(to: string) {
+    return await SmsCode.sendSmsCode(this.ctx, to);
+  },
+
+  verifySmsCodee(clientCode) {
+    SmsCode.verifySmsCode(this.ctx, clientCode);
   },
 };

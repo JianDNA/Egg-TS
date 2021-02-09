@@ -23,6 +23,7 @@
     "sequelize-cli-ts": "node -r ts-node/register ./node_modules/sequelize-cli/lib/sequelize"
   },
   "dependencies": {
+    "@alicloud/pop-core": "^1.7.10",
     "@types/validator": "^13.1.3",
     "egg": "^2.6.1",
     "egg-redis": "^2.4.0",

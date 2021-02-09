@@ -42,7 +42,10 @@ export default class UserController extends Controller {
         ctx.helper.verifyEmailCode(data.captcha);
         break;
       case RegisterTypeEnum.Phone:
+        // 校验数据格式是否正确
         ctx.validate(PhoneUserRule, data);
+        // 校验验证码是否正确
+        ctx.helper.verifySmsCodee(data.captcha);
         break;
       default:
         throw new Error('注册类型不存在');

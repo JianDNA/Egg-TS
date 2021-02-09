@@ -29,6 +29,11 @@ export default () => {
     user: '2210021@qq.com', // generated ethereal user
     pass: 'plodbybvogirbgbf', // generated ethereal password
   };
+  // 短信相关配置
+  config.sms = {
+    accessKeyId: 'LTAI4G6zd3rUJuXRXuyLbLdW',
+    secretAccessKey: 'DgAjhWEJTQ1w48lyDXs4VLkmXwkrj5',
+  };
   // 禁用CSRF安全校验
   config.security = {
     csrf: {
