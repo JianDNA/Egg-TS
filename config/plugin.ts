@@ -6,11 +6,12 @@ const plugin: EggPlugin = {
   //   enable: true,
   //   package: 'egg-view-nunjucks',
   // },
-    // 开启sequelize
-    sequelize: {
-        enable: true,
-        package: 'egg-sequelize',
-    }
+  // 开启sequelize
+  sequelize: {
+    enable: true,
+    // package: 'egg-sequelize',
+    package: 'egg-sequelize-type',
+  },
 };
 
 export default plugin;

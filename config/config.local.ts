@@ -10,7 +10,7 @@ export default () => {
     username: 'root',
     password: 'root',
     port: 3306,
-    database: 'eggTs',
-  }
+    database: 'eggts',
+  };
   return config;
 };

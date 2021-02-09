@@ -1,15 +1,37 @@
-'use strict';
+import { AutoIncrement, Column, DataType, Model, PrimaryKey, Table } from 'sequelize-typescript';
+@Table({
+  modelName: 'user',
+})
+export class User extends Model<User> {
 
-module.exports = app => {
-    const { STRING, INTEGER, DATE } = app.Sequelize;
+  @PrimaryKey
+  @AutoIncrement
+  @Column({
+    type: DataType.INTEGER,
+    comment: '用户ID',
+  })
+  id: number;
 
-    const User = app.model.define('user', {
-        id: { type: INTEGER, primaryKey: true, autoIncrement: true },
-        name: STRING(30),
-        age: INTEGER,
-        created_at: DATE,
-        updated_at: DATE,
-    });
+  @Column({
+    type: DataType.STRING,
+    comment: '用户姓名',
+  })
+  name: string;
 
-    return User;
-};
+  @Column({
+    type: DataType.INTEGER,
+    comment: '用户邮箱',
+  })
+  age: number;
+
+  @Column({
+    field: 'created_at',
+  })
+  createdAt: Date;
+
+  @Column({
+    field: 'updated_at',
+  })
+  updatedAt: Date;
+}
+export default () => User;
