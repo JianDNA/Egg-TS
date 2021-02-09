@@ -12,5 +12,11 @@ export default () => {
     port: 3306,
     database: 'eggts',
   };
+  // 禁用CSRF安全校验
+  config.security = {
+    csrf: {
+      enable: false,
+    },
+  };
   return config;
 };

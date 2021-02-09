@@ -12,6 +12,11 @@ const plugin: EggPlugin = {
     // package: 'egg-sequelize',
     package: 'egg-sequelize-type',
   },
+  // 开启前端数据校验
+  validate: {
+    enable: true,
+    package: 'egg-validate',
+  },
 };
 
 export default plugin;

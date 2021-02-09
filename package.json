@@ -29,6 +29,7 @@
     "egg-sequelize": "^5.2.2",
     "egg-sequelize-type": "^0.0.1",
     "egg-typescript-sequelize": "^1.0.1",
+    "egg-validate": "^2.0.2",
     "mysql2": "^2.2.5",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.5.0",
