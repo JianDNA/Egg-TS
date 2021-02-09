@@ -19,9 +19,26 @@ export default class UtilController extends Controller {
     // console.log(c); // {text: 验证码字符串, data: 验证码对应的svg图片}
     // 保存生成的验证码
     ctx.session.captcha = {
-      code:c.text,
-      expire:Date.now() + 60 * 1000 // 验证码一分钟后过期
-    }
+      code: c.text,
+      expire: Date.now() + 60 * 1000, // 验证码一分钟后过期
+    };
     ctx.body = c.data;
+  }
+  public async verifyImageCode() {
+    const { ctx } = this;
+    // 1.取出服务端中保存的验证码和过期时间
+    const serverCaptcha = ctx.session.captcha;
+    const serverCode = serverCaptcha.code;
+    const serverExpire = serverCaptcha.expire;
+    // 2.获取客户端传递过来的验证码
+    const { clinetCode } = ctx.query;
+    // console.log(serverCode, serverExpire, clinetCode);
+    if (Date.now() > serverExpire) {
+      ctx.body = '验证码已经过期';
+    } else if (serverCode !== clinetCode) {
+      ctx.body = '验证码不正确';
+    } else {
+      ctx.body = '验证通过';
+    }
   }
 }
