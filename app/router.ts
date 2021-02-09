@@ -7,5 +7,6 @@ export default (app: Application) => {
   //   if (value.length < 6) return '用户名至少是6位';
   // });
   router.get('/', controller.home.index);
+  router.get('/captcha', controller.util.imageCode);
   router.post('/register', controller.user.create);
 };
