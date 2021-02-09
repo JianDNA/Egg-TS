@@ -5,7 +5,7 @@ export default (appInfo: EggAppInfo) => {
 
   // override config from framework / plugin
   // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_1612447364393_4738';
+  config.keys = appInfo.name + '_vusn@qq1109632473.com';
 
 
   // add your egg config in here
@@ -15,7 +15,6 @@ export default (appInfo: EggAppInfo) => {
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
   };
-
   // the return config will combines to EggAppConfig
   return {
     ...config,
