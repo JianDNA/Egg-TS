@@ -5,6 +5,7 @@ import svgCaptcha = require('svg-captcha');
 export default class UtilController extends Controller {
   public async imageCode() {
     const { ctx } = this;
+    // 1.生成验证码
     const c = svgCaptcha.create({
       size: 4, // 验证码长度
       width: 160, // 验证码图片宽度
@@ -15,7 +16,12 @@ export default class UtilController extends Controller {
       color: true, // 验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有
       background: '#eee', // 验证码图片背景颜色
     });
-    console.log(c); // {text: 验证码字符串, data: 验证码对应的svg图片}
+    // console.log(c); // {text: 验证码字符串, data: 验证码对应的svg图片}
+    // 保存生成的验证码
+    ctx.session.captcha = {
+      code:c.text,
+      expire:Date.now() + 60 * 1000 // 验证码一分钟后过期
+    }
     ctx.body = c.data;
   }
 }
