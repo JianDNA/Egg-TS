@@ -12,12 +12,15 @@ export default class UserController extends Controller {
     const { ctx } = this;
     try {
       this.validateUserInfo();
-      ctx.body = '注册';
+      // ctx.body = '注册';
+      ctx.success({});
     } catch (e) {
       if (e.errors) {
-        ctx.body = e.errors;
+        // ctx.body = e.errors;
+        ctx.error(400, e.errors);
       } else {
-        ctx.body = e.message;
+        // ctx.body = e.message;
+        ctx.error(400, e.message);
       }
     }
   }
