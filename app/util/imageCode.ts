@@ -23,7 +23,7 @@ export default {
     console.log(c.text);
     return c.data;
   },
-  verifyImageCode(ctx, clinetCode) {
+  verifyImageCode(ctx, clientCode) {
     // 1.取出服务端中保存的验证码和过期时间
     const serverCaptcha = ctx.session.captcha;
     let serverCode;
@@ -41,7 +41,7 @@ export default {
       // 注意点: 验证码无论验证成功还是失败, 只能用一次
       ctx.session.captcha = null;
       throw new Error('验证码已过期');
-    } else if (serverCode !== clinetCode) {
+    } else if (serverCode !== clientCode) {
       // 注意点: 验证码无论验证成功还是失败, 只能用一次
       ctx.session.captcha = null;
       throw new Error('验证码不正确');

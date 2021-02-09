@@ -16,10 +16,8 @@ export default class UserController extends Controller {
       ctx.success({});
     } catch (e) {
       if (e.errors) {
-        // ctx.body = e.errors;
         ctx.error(400, e.errors);
       } else {
-        // ctx.body = e.message;
         ctx.error(400, e.message);
       }
     }
@@ -38,7 +36,10 @@ export default class UserController extends Controller {
         ctx.helper.verifyImageCode(data.captcha);
         break;
       case RegisterTypeEnum.Email:
+        // 校验数据格式是否正确
         ctx.validate(EmailUserRule, data);
+        // 校验验证码是否正确
+        ctx.helper.verifyEmailCode(data.captcha);
         break;
       case RegisterTypeEnum.Phone:
         ctx.validate(PhoneUserRule, data);

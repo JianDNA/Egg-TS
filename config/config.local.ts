@@ -22,6 +22,13 @@ export default () => {
       db: 0,
     },
   };
+  // 邮箱相关配置
+  config.smtp = {
+    host: 'smtp.qq.com',
+    port: 465,
+    user: '2210021@qq.com', // generated ethereal user
+    pass: 'plodbybvogirbgbf', // generated ethereal password
+  };
   // 禁用CSRF安全校验
   config.security = {
     csrf: {
