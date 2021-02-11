@@ -1,7 +1,11 @@
 import ImageCode from '../util/imageCode';
 import EmailCode from '../util/emailCode';
 import SmsCode from '../util/smsCode';
+import Encrypt from '../util/encrypto';
 module.exports = {
+  encryptText(text) {
+    return Encrypt.encryptText(this, text);
+  },
   createImageCode() {
     return ImageCode.createImageCode(this.ctx);
   },

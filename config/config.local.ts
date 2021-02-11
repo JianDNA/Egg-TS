@@ -10,7 +10,8 @@ export default () => {
     username: 'root',
     password: 'root',
     port: 3306,
-    database: 'eggts',
+    database: 'eggts2',
+    timezone: '+08:00',
   };
 
   // redis相关配置
