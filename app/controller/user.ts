@@ -16,7 +16,7 @@ export default class UserController extends Controller {
       // 2.将校验通过的数据保存到数据库
       const data = await ctx.service.user.createUser(ctx.request.body);
       // ctx.body = '注册';
-      ctx.success({data});
+      ctx.success({ data });
     } catch (e) {
       if (e.errors) {
         ctx.error(400, e.errors);
