@@ -2,6 +2,10 @@ import { Controller } from 'egg';
 import NormalUserRule from '../validate/normalUserRule';
 import EmailUserRule from '../validate/emailUserRule';
 import PhoneUserRule from '../validate/phoneUserRule';
+// const jwt = require('jsonwebtoken');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const jwt = require('jsonwebtoken');
+
 const enum TypeEnum {
   Normal = 'normal',
   Email = 'email',
@@ -10,11 +14,23 @@ const enum TypeEnum {
 export default class UserController extends Controller {
   public async isLogin() {
     const { ctx } = this;
-    const user = ctx.session.user;
+    /*    const user = ctx.session.user;
     if (user) {
       ctx.success(user);
     } else {
       ctx.error(401, '还没有登录');
+    }*/
+    const {token} = ctx.query;
+    /**
+     * 校验方法
+     * 第一个参数: token
+     * 第二个参数: 当初加密的密钥
+     */
+    try {
+      const user = jwt.verify(token, this.config.keys);
+      ctx.success(user);
+    } catch (e) {
+      ctx.error(400, e.message);
     }
   }
   public async index() {
@@ -26,10 +42,18 @@ export default class UserController extends Controller {
       ctx.helper.verifyImageCode(data.captcha);
       // 2.将校验通过的数据保存到数据库
       const user = await ctx.service.user.getUser(data);
+      delete user.password;
       // 3.保存用户登录状态
-      ctx.session.user = user;
-      // ctx.body = '注册';
-      ctx.success({ user });
+      // ctx.session.user = user;
+      // 3.生成jwt令牌
+      /**
+       * 第一个参数: 需要保存的数据
+       * 第二个参数: 签名使用的密钥
+       * 第三个参数: 额外配置
+       */
+      const token = jwt.sign(user, this.config.keys, { expiresIn: '7 days' });
+      user.token = token;
+      ctx.success(user);
     } catch (e) {
       if (e.errors) {
         ctx.error(400, e.errors);

@@ -4,7 +4,6 @@ export default class User extends Service {
 
   public async getUser({ username, email, phone, password }) {
     password = this.ctx.helper.encryptText(password);
-    console.log(password);
     let res;
     if (email) {
       res = await this.findUser({ email, password });
