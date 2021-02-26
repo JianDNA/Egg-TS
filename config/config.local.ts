@@ -28,7 +28,7 @@ export default () => {
     host: 'smtp.qq.com',
     port: 465,
     user: '2210021@qq.com', // generated ethereal user
-    pass: 'plodbybvogirbgbf', // generated ethereal password
+    pass: 'vjpwfxzyrxadbhid', // generated ethereal password
   };
   // 短信相关配置
   config.sms = {

@@ -9,7 +9,7 @@ export default {
     type: 'string',
     trim: true,
     // 必须是数字字母符号组合
-    format: /^(?:(?=.*[0-9].*)(?=.*[A-Za-z].*)(?=.*[,\.#%'\+\*\-:;^_`].*))[,\.#%'\+\*\-:;^_`0-9A-Za-z]{8,}$/,
+    format: /(?=.*([a-zA-Z].*))(?=.*[0-9].*)[a-zA-Z0-9-*/+.~!@#$%^&*()]{8,20}$/,
     message: '密码不符合要求',
   },
   captcha: {
@@ -19,7 +19,7 @@ export default {
     format: /^[A-Za-z0-9]{4}$/,
     message: '验证码不符合要求',
   },
-  registerType: {
+  type: {
     type: 'enum',
     values: [ 'normal', 'email', 'phone' ],
   },
