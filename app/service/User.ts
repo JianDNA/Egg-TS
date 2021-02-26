@@ -2,7 +2,26 @@ import { Service } from 'egg';
 
 export default class User extends Service {
 
+  public async getUser({ username, email, phone, password }) {
+    password = this.ctx.helper.encryptText(password);
+    console.log(password);
+    let res;
+    if (email) {
+      res = await this.findUser({ email, password });
+    } else if (phone) {
+      res = await this.findUser({ phone, password });
+    } else if (username) {
+      res = await this.findUser({ username, password });
+    }
+    try {
+      return res.dataValues;
+    } catch (e) {
+      throw new Error('用户名或者密码不正确');
+    }
+  }
+
   public async createUser({ username, email, phone, password }) {
+    password = this.ctx.helper.encryptText(password);
     if (username) {
       // 普通注册
       return await this.createUserByUserName(username, password);
@@ -16,7 +35,6 @@ export default class User extends Service {
   }
 
   private async createUserByUserName(username: string, password:string) {
-    password = this.ctx.helper.encryptText(password);
     // 1.查询当前用户是否存在
     const user = await this.findUser({ username });
     if (user) {

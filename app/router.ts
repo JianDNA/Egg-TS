@@ -12,4 +12,5 @@ export default (app: Application) => {
   router.get('/smsCode', controller.util.smsCode);
 
   router.post('/register', controller.user.create);
+  router.post('/login', controller.user.index);
 };
