@@ -8,6 +8,15 @@ const enum TypeEnum {
   Phone ='phone'
 }
 export default class UserController extends Controller {
+  public async isLogin() {
+    const { ctx } = this;
+    const user = ctx.session.user;
+    if (user) {
+      ctx.success(user);
+    } else {
+      ctx.error(401, '还没有登录');
+    }
+  }
   public async index() {
     const { ctx } = this;
     try {
@@ -17,6 +26,8 @@ export default class UserController extends Controller {
       ctx.helper.verifyImageCode(data.captcha);
       // 2.将校验通过的数据保存到数据库
       const user = await ctx.service.user.getUser(data);
+      // 3.保存用户登录状态
+      ctx.session.user = user;
       // ctx.body = '注册';
       ctx.success({ user });
     } catch (e) {

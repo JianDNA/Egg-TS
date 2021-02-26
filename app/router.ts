@@ -13,4 +13,5 @@ export default (app: Application) => {
 
   router.post('/register', controller.user.create);
   router.post('/login', controller.user.index);
+  router.get('/islogin', controller.user.isLogin);
 };
