@@ -20,7 +20,9 @@ export default class UserController extends Controller {
     } else {
       ctx.error(401, '还没有登录');
     }*/
-    const {token} = ctx.query;
+    // const { token } = ctx.query;
+    const token = ctx.get('Authorization');
+    console.log(token);
     /**
      * 校验方法
      * 第一个参数: token
