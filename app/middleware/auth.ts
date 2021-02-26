@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
  * @param app
  */
 module.exports = (options, app) => {
-  console.log(33);
   return async function(ctx, next) {
     // 1.获取需要控制权限的路由地址
     const authUrls = options.authUrls;
@@ -32,4 +31,4 @@ module.exports = (options, app) => {
     }
   };
 
-}; 
+};

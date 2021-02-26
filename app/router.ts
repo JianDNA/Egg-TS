@@ -14,6 +14,7 @@ export default (app: Application) => {
   router.post('/register', controller.user.create);
   router.post('/login', controller.user.index);
   router.get('/isLogin', controller.user.isLogin);
+  router.get('/githubAuth', controller.github.loginView);
 
   router.get('/users', controller.users.index);
 };
