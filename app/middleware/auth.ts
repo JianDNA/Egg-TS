@@ -14,7 +14,8 @@ module.exports = (options, app) => {
       // 需要权限控制
       // 3.获取客户端传递过来的JWT令牌
       // const token = ctx.get('authorization');
-      const token = ctx.cookies.get('token');
+      // 注意点: 如果设置的时候知道不签名, 那么获取的时候也要指定不签名
+      const token = ctx.cookies.get('token', { signed: false });
       // 4.判断客户端有没有传递jwt令牌
       if (token) {
         try {

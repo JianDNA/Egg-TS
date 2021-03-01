@@ -60,6 +60,7 @@ export default class UserController extends Controller {
         maxAge: 24 * 60 * 60 * 1000,
         // 如果设置为true, 那么前端无法获取这个cookie, 前端无法鉴权
         httpOnly: false,
+        signed: false,
       });
       ctx.success(user);
     } catch (e) {
