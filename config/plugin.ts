@@ -31,6 +31,17 @@ const plugin: EggPlugin = {
     enable: true,
     package: 'egg-cors',
   },
+
+  // 开启第三方登录鉴权
+  passport: {
+    enable: true,
+    package: 'egg-passport',
+  },
+  // 开启github鉴权
+  passportGithub: {
+    enable: true,
+    package: 'egg-passport-github',
+  },
 };
 
 export default plugin;

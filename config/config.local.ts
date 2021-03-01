@@ -41,5 +41,12 @@ export default () => {
       enable: false,
     },
   };
+  // github登录相关配置
+  config.passportGithub = {
+    key: 'b3efbde43f27c55acb4e',
+    secret: '15db373d3f45db10660750fda0180af84b9b35f2',
+    // callbackURL: '/passport/github/callback',
+    // proxy: false,
+  };
   return config;
 };

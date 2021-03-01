@@ -72,7 +72,7 @@ export default class GithubController extends Controller {
     const { ctx } = this;
     try {
       // 用户存在直接登录
-      const user = await ctx.service.oauth.getUser(data);
+      const user = await ctx.service.oauth.getOauthUser(data);
       // 我们想在后端直接登录, 但是我们无法在后端设置前端的sessionStorage, 而前端的鉴权是通过sessionStorage完成的, 所以应该改变鉴权逻辑, 通过cookie来完成
       const token = jwt.sign(user, this.config.keys, { expiresIn: '7 days' });
       ctx.cookies.set('token', token, {
@@ -80,6 +80,7 @@ export default class GithubController extends Controller {
         maxAge: 24 * 60 * 60 * 1000,
         // 如果设置为true, 那么前端无法获取这个cookie, 前端无法鉴权
         httpOnly: false,
+        signed: false,
       });
       ctx.redirect('http://127.0.0.1:8080/admin');
       ctx.body = user;
@@ -101,6 +102,14 @@ export default class GithubController extends Controller {
         userId: user.id,
       };
       await ctx.service.oauth.createOauth(oauthInfo);
+      const token = jwt.sign(user, this.config.keys, { expiresIn: '7 days' });
+      ctx.cookies.set('token', token, {
+        path: '/',
+        maxAge: 24 * 60 * 60 * 1000,
+        // 如果设置为true, 那么前端无法获取这个cookie, 前端无法鉴权
+        httpOnly: false,
+        signed: false,
+      });
       // 3.直接登录(跳转到admin)
       ctx.redirect('http://127.0.0.1:8080/admin');
     }

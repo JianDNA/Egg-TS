@@ -2,7 +2,7 @@ import { Service } from 'egg';
 import { User } from '../model/user';
 export default class Oauth extends Service {
 
-  public async getUser({ id, provider }) {
+  public async getOauthUser({ id, provider }) {
     const { ctx } = this;
     console.log(id, provider);
     const data = await ctx.model.Oauth.findOne({
