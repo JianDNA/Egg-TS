@@ -54,7 +54,13 @@ export default class UserController extends Controller {
        * 第三个参数: 额外配置
        */
       const token = jwt.sign(user, this.config.keys, { expiresIn: '7 days' });
-      user.token = token;
+      // user.token = token;
+      ctx.cookies.set('token', token, {
+        path: '/',
+        maxAge: 24 * 60 * 60 * 1000,
+        // 如果设置为true, 那么前端无法获取这个cookie, 前端无法鉴权
+        httpOnly: false,
+      });
       ctx.success(user);
     } catch (e) {
       if (e.errors) {

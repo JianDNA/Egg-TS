@@ -14,7 +14,9 @@ export default (app: Application) => {
   router.post('/register', controller.user.create);
   router.post('/login', controller.user.index);
   router.get('/isLogin', controller.user.isLogin);
-  router.get('/githubAuth', controller.github.loginView);
+  router.get('/githubAuth', controller.github.getLoginView);
+  // http://127.0.0.1:7001/github/callback?code=3f2f523cee515890ba25
+  router.get('/github/callback', controller.github.getAccessToken);
 
   router.get('/users', controller.users.index);
 };

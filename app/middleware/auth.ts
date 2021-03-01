@@ -13,7 +13,8 @@ module.exports = (options, app) => {
     if (authUrls.includes(ctx.url)) {
       // 需要权限控制
       // 3.获取客户端传递过来的JWT令牌
-      const token = ctx.get('authorization');
+      // const token = ctx.get('authorization');
+      const token = ctx.cookies.get('token');
       // 4.判断客户端有没有传递jwt令牌
       if (token) {
         try {

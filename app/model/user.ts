@@ -2,7 +2,7 @@ import { AutoIncrement, Column, AllowNull, Unique, DataType, Model, PrimaryKey, 
 @Table({
   modelName: 'user',
 })
-export class User extends Model<User> {
+export class User extends Model {
   @PrimaryKey
   @AutoIncrement
   @Unique
@@ -61,4 +61,6 @@ export class User extends Model<User> {
   @UpdatedAt
   updatedAt: Date;
 }
+
+
 export default () => User;
