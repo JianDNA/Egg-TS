@@ -54,6 +54,14 @@ export class User extends Model {
   })
   password: string;
 
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: true,
+    unique: false,
+    defaultValue: false, // 如果是0表示没有绑定第三方账户, 如果取值是1表示绑定了第三方账户
+  })
+  github: boolean;
+
 
   @CreatedAt
   createdAt: Date;

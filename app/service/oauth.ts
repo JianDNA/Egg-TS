@@ -20,4 +20,9 @@ export default class Oauth extends Service {
       throw new Error('授权用户不存在');
     }
   }
+
+  public async createOauth(obj) {
+    const { ctx } = this;
+    return await ctx.model.Oauth.create(obj);
+  }
 }

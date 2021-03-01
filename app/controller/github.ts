@@ -1,6 +1,7 @@
 import { Controller } from 'egg';
 const queryString = require('querystring');
 const jwt = require('jsonwebtoken');
+import { v4 as uuidv4 } from 'uuid';
 
 export default class GithubController extends Controller {
   public async getLoginView() {
@@ -65,9 +66,9 @@ export default class GithubController extends Controller {
     });
     const user = JSON.parse(result.data.toString());
     user.provider = 'github';
-    await this.go2Admin(user);
+    await this.go2Admin(user, accessToken);
   }
-  private async go2Admin(data) {
+  private async go2Admin(data, accessToken) {
     const { ctx } = this;
     try {
       // 用户存在直接登录
@@ -84,6 +85,24 @@ export default class GithubController extends Controller {
       ctx.body = user;
     } catch (e) {
       // 用户不存在, 先注册再登录
+      // 1.创建一个用户
+      // ctx.body = uuidv4();
+      const userInfo = {
+        username: uuidv4(),
+        password: 'abc123456',
+        github: 1,
+      };
+      const user = await ctx.service.user.createUser(userInfo);
+      // 2.保存用户信息
+      const oauthInfo = {
+        accessToken,
+        provider: data.provider,
+        uid: data.id,
+        userId: user.id,
+      };
+      await ctx.service.oauth.createOauth(oauthInfo);
+      // 3.直接登录(跳转到admin)
+      ctx.redirect('http://127.0.0.1:8080/admin');
     }
   }
 }

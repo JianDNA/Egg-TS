@@ -7,6 +7,8 @@ export default (appInfo: EggAppInfo) => {
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_vusn@qq1109632473.com';
 
+  // 超时时间
+  config.serverTimeout = 10000;
   // 跨域相关配置
   config.cors = {
     // 允许哪些地址可以跨域请求
