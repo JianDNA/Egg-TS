@@ -62,6 +62,22 @@ export class User extends Model {
   })
   github: boolean;
 
+  @Column({
+    type: DataType.BOOLEAN,
+    allowNull: true,
+    unique: false,
+    defaultValue: false,
+  })
+  user_state: boolean;
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: true,
+    unique: false,
+    defaultValue: '/public/avatar.png',
+    comment: '用户头像',
+  })
+  avatar_url: string;
 
   @CreatedAt
   createdAt: Date;

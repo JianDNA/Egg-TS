@@ -6,7 +6,8 @@ export default class UsersController extends Controller {
   public async index() {
     const { ctx } = this;
     try {
-      ctx.body = await ctx.service.users.getAll();
+      const users = await ctx.service.users.getAll();
+      ctx.success(users);
     } catch (e) {
       if (e.errors) {
         ctx.error(400, e.errors);
