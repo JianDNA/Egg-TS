@@ -1,5 +1,6 @@
 // import { QueryInterface } from 'sequelize';
 
+// 创建三方鉴权记录表
 module.exports = {
   // 在执行数据库升级时调用的函数，创建 users 表
   up: async (queryInterface, Sequelize) => {

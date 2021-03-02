@@ -1,7 +1,7 @@
 
 // import { QueryInterface } from 'sequelize';
 
-// 为users表新增字段
+// 为users表新增github字段
 module.exports = {
   // 在执行数据库升级时调用的函数，创建 users 表
   up: async (queryInterface, Sequelize) => {

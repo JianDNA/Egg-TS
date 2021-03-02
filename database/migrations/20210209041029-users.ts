@@ -1,9 +1,10 @@
 import { QueryInterface } from 'sequelize';
 
+// 创建用户表
 // ts文件需要自定义脚本执行ts文件
 // https://blog.csdn.net/taokexia/article/details/105556703
 // "sequelize-cli-ts: "node -r ts-node/register ./node_modules/sequelize-cli/lib/sequelize"
-// 执行方式: sequelize-cli-ts db:migrate
+// 执行方式: npm run sequelize-cli-ts db:migrate
 module.exports = {
   // 在执行数据库升级时调用的函数，创建 users 表
   up: async (queryInterface: QueryInterface, Sequelize) => {
