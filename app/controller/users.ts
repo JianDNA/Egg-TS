@@ -36,4 +36,15 @@ export default class UsersController extends Controller {
     }
   }
 
+  public async delete() {
+    const { ctx } = this;
+    const { id } = ctx.params;
+    try {
+      const users = await ctx.service.users.deleteUser(id);
+      ctx.success(users);
+    } catch (e) {
+      ctx.error(400, e.message);
+    }
+  }
+
 }

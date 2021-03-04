@@ -28,4 +28,20 @@ export default class User extends Service {
     delete userdata.password;
     return userdata;
   }
+
+  public async deleteUser(id) {
+    const user = await this.ctx.model.User.findByPk(id);
+    if (user) {
+      const data = await this.ctx.model.User.destroy({
+        where: { id },
+      });
+      if (data > 0) {
+        return user;
+      }
+      throw new Error('删除用户失败');
+
+    } else {
+      throw new Error('删除用户不存在');
+    }
+  }
 }
