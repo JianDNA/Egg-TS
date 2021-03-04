@@ -66,7 +66,7 @@ export class User extends Model {
     type: DataType.BOOLEAN,
     allowNull: true,
     unique: false,
-    defaultValue: false,
+    defaultValue: true,
   })
   user_state: boolean;
 
