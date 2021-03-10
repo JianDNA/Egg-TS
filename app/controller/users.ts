@@ -134,4 +134,30 @@ export default class UsersController extends Controller {
     }
   }
 
+  public async exportUser() {
+    const { ctx } = this;
+    const users = await ctx.service.users.getAll();
+    const user = users.length ? (users[0] as any).dataValues : null;
+    console.log(user, '-------');
+    const data: any[] = [];
+    if (user) {
+      const cloumTitles = Object.keys(user);
+      data.push(cloumTitles);
+      users.forEach(user => {
+        const temp: any[] = [];
+        cloumTitles.forEach(key => {
+          temp.push(user[key]);
+        });
+        data.push(temp);
+      });
+    }
+    console.log(data);
+    const buffer = xlsx.build([{ name: 'mySheetName', data }]);
+    // 设置返回类型
+    ctx.set('Content-Type', 'application/vnd.ms-excel');
+    // 返回文件的名字
+    ctx.attachment('user.xls');
+    ctx.body = buffer;
+  }
+
 }
