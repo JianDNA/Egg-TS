@@ -22,6 +22,7 @@ export default class UsersController extends Controller {
     const { ctx } = this;
     try {
       const data = ctx.request.body;
+      !data.phone && delete data.phone
       // 1.校验数据
       ctx.validate(AddUserRule, data);
       // 2.将校验通过的数据保存到数据库

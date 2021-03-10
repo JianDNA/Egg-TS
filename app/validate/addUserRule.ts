@@ -14,7 +14,7 @@ export default {
     message: '用户名不符合要求',
   },
   password: {
-    required: false,
+    required: true,
     type: 'string',
     trim: true,
     // 至少包含数字跟字母，可以有字符

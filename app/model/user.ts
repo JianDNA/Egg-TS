@@ -63,21 +63,39 @@ export class User extends Model {
   github: boolean;
 
   @Column({
+    field: 'user_state',
     type: DataType.BOOLEAN,
     allowNull: true,
     unique: false,
     defaultValue: true,
   })
-  user_state: boolean;
+  userState: boolean;
 
   @Column({
+    field: 'avatar_url',
     type: DataType.STRING,
     allowNull: true,
     unique: false,
     defaultValue: '/public/avatar.png',
     comment: '用户头像',
+    // 获取器
+    get() {
+      const rawValue = this.getDataValue('avatarURL');
+      return rawValue ? 'http://127.0.0.1:7001' + rawValue : null;
+    },
   })
-  avatar_url: string;
+  avatarURL: string;
+
+  @Column({
+    type: DataType.VIRTUAL,
+    get() {
+      return 'http://127.0.0.1:7001';
+    },
+    set() {
+      throw new Error('不要尝试设置 `fullName` 的值!');
+    },
+  })
+  baseURL: string;
 
   @CreatedAt
   createdAt: Date;
