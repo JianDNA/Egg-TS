@@ -3,7 +3,11 @@ import { Service } from 'egg';
 export default class User extends Service {
 
   public async getAll() {
-    return this.ctx.model.User.findAll();
+    return this.ctx.model.User.findAll({
+      attributes: {
+        exclude: [ 'password', 'created_at', 'updated_at' ],
+      },
+    });
   }
   public async createUser(obj) {
     obj.password = this.ctx.helper.encryptText(obj.password);
@@ -12,11 +16,11 @@ export default class User extends Service {
     if (user) {
       throw new Error('用户名已存在');
     }
-    user = await this.ctx.model.User.findOne({ where: { email } });
+    email ? user = await this.ctx.model.User.findOne({ where: { email } }) : '';
     if (user) {
       throw new Error('邮箱已存在');
     }
-    user = await this.ctx.model.User.findOne({ where: { phone } });
+    phone ? user = await this.ctx.model.User.findOne({ where: { phone } }) : '';
     if (user) {
       throw new Error('手机已存在');
     }
@@ -39,6 +43,21 @@ export default class User extends Service {
         return user;
       }
       throw new Error('删除用户失败');
+    } else {
+      throw new Error('删除用户不存在');
+    }
+  }
+
+  public async updateUser(id, obj) {
+    const user = await this.ctx.model.User.findByPk(id);
+    if (user) {
+      const data = await this.ctx.model.User.update(obj, {
+        where: { id },
+      });
+      if (data.length > 0) {
+        return user;
+      }
+      throw new Error('更新用户失败');
 
     } else {
       throw new Error('删除用户不存在');
