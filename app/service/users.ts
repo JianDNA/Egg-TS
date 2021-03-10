@@ -12,17 +12,32 @@ export default class User extends Service {
   public async createUser(obj) {
     obj.password = this.ctx.helper.encryptText(obj.password);
     const { username, email, phone } = obj;
-    let user = await this.ctx.model.User.findOne({ where: { username } });
-    if (user) {
-      throw new Error('用户名已存在');
+    let user;
+    if (username) {
+      user = await this.ctx.model.User.findOne({ where: { username } });
+      if (user) {
+        throw new Error('用户名已存在');
+      }
+    } else {
+      delete obj.username;
     }
-    email ? user = await this.ctx.model.User.findOne({ where: { email } }) : '';
-    if (user) {
-      throw new Error('邮箱已存在');
+
+    if (email) {
+      user = await this.ctx.model.User.findOne({ where: { email } });
+      if (user) {
+        throw new Error('邮箱已存在');
+      }
+    } else {
+      delete obj.email;
     }
-    phone ? user = await this.ctx.model.User.findOne({ where: { phone } }) : '';
-    if (user) {
-      throw new Error('手机已存在');
+
+    if (phone) {
+      user = await this.ctx.model.User.findOne({ where: { phone } });
+      if (user) {
+        throw new Error('手机已存在');
+      }
+    } else {
+      delete obj.phone;
     }
 
     // 2.如果不存在才保存

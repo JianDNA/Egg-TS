@@ -3,6 +3,8 @@ import AddUserRule from '../validate/addUserRule';
 import EditUserRule from '../validate/editUserRule';
 const path = require('path');
 const fs = require('fs');
+const xlsx = require('node-xlsx');
+
 export default class UsersController extends Controller {
 
   public async index() {
@@ -95,6 +97,41 @@ export default class UsersController extends Controller {
     // 5.返回存储图片的路径
     filePath = filePath.replace(/\\/g, '/');
     ctx.success(filePath);
+  }
+
+  public async importUser() {
+    const { ctx } = this;
+    let transaction;
+    try {
+      const file = ctx.request.files[0];
+      // 1.读取Excel文件
+      const workSheets = xlsx.parse(fs.readFileSync(file.filepath));
+      // 2.获取到需要操作的那一页的对象
+      const sheet1 = workSheets.length ? workSheets[0] : null;
+      const sheet1Data = sheet1 ? sheet1.data : [];
+      const users: any[] = [];
+      // 开启事务
+      transaction = await ctx.model.transaction();
+      for (let i = 1; i < sheet1Data.length; i++) {
+        // 获取到所有的key
+        const cloumnTitles = sheet1Data[0];
+        // 获取到当前行的数据
+        const cloumnValues = sheet1Data[i];
+        const user = {};
+        for (let j = 0; j < cloumnTitles.length; j++) {
+          user[cloumnTitles[j]] = cloumnValues[j];
+        }
+        await ctx.service.users.createUser(user);
+        users.push(user);
+      }
+      // 提交事务
+      await transaction.commit();
+      ctx.success(users);
+    } catch (e) {
+      // 回滚事务
+      await transaction.rollback();
+      ctx.error(500, e.message);
+    }
   }
 
 }

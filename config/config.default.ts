@@ -31,6 +31,9 @@ export default (appInfo: EggAppInfo) => {
   config.multipart = {
     fileSize: '10mb',
     mode: 'file', // 文件模式 or 数据流模式    https://eggjs.org/en/basics/controller.html#stream-mode  文件模式: 先将前端的数据写入到缓存中,然后返回给我们(简单但性能差)  数据流模式: 复杂且高性能
+    fileExtensions: [
+      '.xls', // 支持xls格式的Excel文件
+    ],
   };
 
   // add your special config in here
