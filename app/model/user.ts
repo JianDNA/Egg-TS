@@ -79,10 +79,10 @@ export class User extends Model {
     defaultValue: '/public/avatar.png',
     comment: '用户头像',
     // 获取器
-    get() {
-      const rawValue = this.getDataValue('avatarURL');
-      return rawValue ? 'http://127.0.0.1:7001' + rawValue : null;
-    },
+    // get() {
+    //   const rawValue = this.getDataValue('avatarURL');
+    //   return rawValue ? 'http://127.0.0.1:7001' + rawValue : null;
+    // },
   })
   avatarURL: string;
 
@@ -91,9 +91,9 @@ export class User extends Model {
     get() {
       return 'http://127.0.0.1:7001';
     },
-    set() {
-      throw new Error('不要尝试设置 `fullName` 的值!');
-    },
+    // set() {
+    //   throw new Error('不要尝试设置 `fullName` 的值!');
+    // },
   })
   baseURL: string;
 

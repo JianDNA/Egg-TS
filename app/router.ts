@@ -19,4 +19,5 @@ export default (app: Application) => {
   router.post('/api/v1/users', controller.users.create);
   router.delete('/api/v1/users/:id', controller.users.delete);
   router.put('/api/v1/users/:id', controller.users.update);
+  router.post('/api/v1/posts/', controller.users.posts);
 };

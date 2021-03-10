@@ -27,6 +27,12 @@ export default (appInfo: EggAppInfo) => {
     ],
   };
 
+  // 文件上传
+  config.multipart = {
+    fileSize: '10mb',
+    mode: 'file', // 文件模式 or 数据流模式    https://eggjs.org/en/basics/controller.html#stream-mode  文件模式: 先将前端的数据写入到缓存中,然后返回给我们(简单但性能差)  数据流模式: 复杂且高性能
+  };
+
   // add your special config in here
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
