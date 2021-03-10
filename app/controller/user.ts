@@ -45,6 +45,10 @@ export default class UserController extends Controller {
       // 2.将校验通过的数据保存到数据库
       const user = await ctx.service.user.getUser(data);
       delete user.password;
+      // 校验用户是否可用
+      if (!user.userState) {
+        return ctx.error(400, '用户已经注销!');
+      }
       // 3.保存用户登录状态
       // ctx.session.user = user;
       // 3.生成jwt令牌
