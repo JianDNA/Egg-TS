@@ -9,6 +9,21 @@ export default class User extends Service {
       },
     });
   }
+
+  public async getUserList(obj) {
+    const currentPage = parseInt(obj.currentPage) || 1;
+    const pageSize = parseInt(obj.pageSize) || 5;
+    const users = await this.ctx.model.User.findAll({
+      attributes: {
+        exclude: [ 'password', 'created_at', 'updated_at' ],
+      },
+      limit: pageSize,
+      offset: (currentPage - 1) * pageSize,
+    });
+    const totalCount = await this.ctx.model.User.findAndCountAll();
+    return { users, totalCount: totalCount.count };
+  }
+
   public async createUser(obj) {
     obj.password = this.ctx.helper.encryptText(obj.password);
     const { username, email, phone } = obj;

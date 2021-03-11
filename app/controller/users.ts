@@ -10,7 +10,8 @@ export default class UsersController extends Controller {
   public async index() {
     const { ctx } = this;
     try {
-      const users = await ctx.service.users.getAll();
+      // const users = await ctx.service.users.getAll();
+      const users = await ctx.service.users.getUserList(ctx.query);
       ctx.success(users);
     } catch (e) {
       if (e.errors) {
@@ -138,7 +139,7 @@ export default class UsersController extends Controller {
     const { ctx } = this;
     const users = await ctx.service.users.getAll();
     const user = users.length ? (users[0] as any).dataValues : null;
-    console.log(user, '-------');
+    // console.log(user, '-------');
     const data: any[] = [];
     if (user) {
       const cloumTitles = Object.keys(user);
@@ -151,7 +152,7 @@ export default class UsersController extends Controller {
         data.push(temp);
       });
     }
-    console.log(data);
+    // console.log(data);
     const buffer = xlsx.build([{ name: 'mySheetName', data }]);
     // 设置返回类型
     ctx.set('Content-Type', 'application/vnd.ms-excel');
