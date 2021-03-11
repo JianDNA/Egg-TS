@@ -22,6 +22,7 @@ module.exports = app => {
         username: uuidv4(),
         password: 'abc123456',
         github: 1,
+        local: false,
       };
       const newUser = await ctx.service.user.createUser(userInfo);
       // 2.保存用户信息

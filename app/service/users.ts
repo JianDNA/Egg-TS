@@ -14,8 +14,30 @@ export default class User extends Service {
     const currentPage = parseInt(obj.currentPage) || 1;
     const pageSize = parseInt(obj.pageSize) || 5;
     const { role, origin, type, key } = obj;
-    if (key && !role && !origin && !type) {
-      // 只有搜索的关键字, 那么需要把所有包含这个关键的所有类型的用户都查询出来
+    const defaultCondition = {
+      [Op.or]: [
+        { username: { [Op.substring]: key } },
+        { email: { [Op.substring]: key } },
+        { phone: { [Op.substring]: key } },
+      ],
+    };
+    if (key || role || origin || type) {
+      // 如果有附加条件, 必须同时满足多个条件
+      const conditionList: any[] = [];
+      if (key) {
+        conditionList.push(defaultCondition);
+      }
+      if (role) {
+        console.log(role);
+      }
+      if (origin) {
+        // {github: true} || {local: true}
+        conditionList.push({ [origin]: true });
+      }
+      if (type) {
+        // {username: 123} || {email: 123} || {email: phone}
+        conditionList.push({ [type]: { [Op.substring]: key } });
+      }
       const users = await this.ctx.model.User.findAll({
         attributes: {
           exclude: [ 'password', 'created_at', 'updated_at' ],
@@ -23,23 +45,14 @@ export default class User extends Service {
         limit: pageSize,
         offset: (currentPage - 1) * pageSize,
         where: {
-          [Op.or]: [
-            { username: { [Op.substring]: key } },
-            { email: { [Op.substring]: key } },
-            { phone: { [Op.substring]: key } },
-          ],
+          [Op.and]: conditionList,
         },
       });
       const totalCount = await this.ctx.model.User.findAndCountAll({
         where: {
-          [Op.or]: [
-            { username: { [Op.substring]: key } },
-            { email: { [Op.substring]: key } },
-            { phone: { [Op.substring]: key } },
-          ],
+          [Op.and]: conditionList,
         },
       });
-      console.log(users);
       return { users, totalCount: totalCount.count };
     }
     const users = await this.ctx.model.User.findAll({
