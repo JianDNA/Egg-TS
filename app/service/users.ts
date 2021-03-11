@@ -1,5 +1,5 @@
 import { Service } from 'egg';
-
+const { Op } = require('sequelize');
 export default class User extends Service {
 
   public async getAll() {
@@ -13,6 +13,35 @@ export default class User extends Service {
   public async getUserList(obj) {
     const currentPage = parseInt(obj.currentPage) || 1;
     const pageSize = parseInt(obj.pageSize) || 5;
+    const { role, origin, type, key } = obj;
+    if (key && !role && !origin && !type) {
+      // 只有搜索的关键字, 那么需要把所有包含这个关键的所有类型的用户都查询出来
+      const users = await this.ctx.model.User.findAll({
+        attributes: {
+          exclude: [ 'password', 'created_at', 'updated_at' ],
+        },
+        limit: pageSize,
+        offset: (currentPage - 1) * pageSize,
+        where: {
+          [Op.or]: [
+            { username: { [Op.substring]: key } },
+            { email: { [Op.substring]: key } },
+            { phone: { [Op.substring]: key } },
+          ],
+        },
+      });
+      const totalCount = await this.ctx.model.User.findAndCountAll({
+        where: {
+          [Op.or]: [
+            { username: { [Op.substring]: key } },
+            { email: { [Op.substring]: key } },
+            { phone: { [Op.substring]: key } },
+          ],
+        },
+      });
+      console.log(users);
+      return { users, totalCount: totalCount.count };
+    }
     const users = await this.ctx.model.User.findAll({
       attributes: {
         exclude: [ 'password', 'created_at', 'updated_at' ],
@@ -22,6 +51,7 @@ export default class User extends Service {
     });
     const totalCount = await this.ctx.model.User.findAndCountAll();
     return { users, totalCount: totalCount.count };
+
   }
 
   public async createUser(obj) {
