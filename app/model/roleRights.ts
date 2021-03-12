@@ -6,7 +6,7 @@ import { Rights } from './rights';
 import { Role } from './role';
 
 @Table
-export class RoleRights extends Model<RoleRights> {
+export class RoleRights extends Model {
 
   @Column({
     type: DataType.INTEGER,

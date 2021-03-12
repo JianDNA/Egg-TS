@@ -20,7 +20,7 @@ rights_name/rights_desc/rights_state/rights_path/rights_method/rights_pid/rights
 
 * */
 @Table
-export class Rights extends Model<Rights> {
+export class Rights extends Model {
 
   @Column({
     type: DataType.INTEGER,
