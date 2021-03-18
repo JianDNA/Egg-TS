@@ -5,8 +5,15 @@ export default class RolesController extends Controller {
   public async index() {
     const { ctx } = this;
     try {
-      const roles = await ctx.service.roles.getRolesList(ctx.query);
-      ctx.success(roles);
+      let data;
+      if (JSON.stringify(ctx.query) !== '{}') {
+        data = await ctx.service.roles.getRolesList(ctx.query);
+        ctx.success(data);
+      } else {
+        data = await ctx.service.roles.getAllRoles();
+        ctx.success(data);
+      }
+
     } catch (e) {
       ctx.error(500, e.message);
     }

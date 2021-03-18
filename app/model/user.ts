@@ -1,4 +1,7 @@
-import { AutoIncrement, Column, AllowNull, Unique, DataType, Model, PrimaryKey, Table, CreatedAt, UpdatedAt } from 'sequelize-typescript';
+import { AutoIncrement, Column, AllowNull, Unique, DataType, Model, PrimaryKey, Table, CreatedAt, UpdatedAt, HasMany, BelongsToMany } from 'sequelize-typescript';
+import { OAuth } from './oauth';
+import { Role } from './role';
+import { UserRole } from './userRole';
 @Table({
   modelName: 'user',
 })
@@ -96,6 +99,12 @@ export class User extends Model {
     // },
   })
   baseURL: string;
+
+  @HasMany(() => OAuth)
+  oauths:OAuth[];
+
+  @BelongsToMany(() => Role, () => UserRole)
+  roles:Role[];
 
   @CreatedAt
   createdAt: Date;

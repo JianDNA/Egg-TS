@@ -24,7 +24,7 @@ import { User } from './user';
 @Table({
   modelName: 'oauth',
 })
-export class Oauth extends Model {
+export class OAuth extends Model {
   [x: string]: any;
 
   @PrimaryKey
@@ -84,4 +84,4 @@ export class Oauth extends Model {
   // });
 
 }
-export default () => Oauth;
+export default () => OAuth;

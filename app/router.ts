@@ -18,6 +18,10 @@ export default (app: Application) => {
   // 用户管理
   require('./router/users')(app);
 
+  // 关系管理
+  require('./router/userRole')(app);
+  require('./router/roleRights')(app);
+
 
   // 角色管理
   // router.get('/api/v1/roles', controller.roles.index);

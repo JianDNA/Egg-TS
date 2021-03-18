@@ -5,17 +5,21 @@ const { Op } = require('sequelize');
  * Test Service
  */
 export default class Roles extends Service {
+  public async getAllRoles() {
+    const roles = await this.ctx.model.Role.findAll({
+      attributes: {
+        exclude: [ 'createdAt', 'updatedAt' ],
+      },
+    });
+    return roles;
+  }
 
-  /**
-     * sayHi to you
-     * @param name - your name
-     */
   public async getRolesList(obj) {
     const currentPage = parseInt(obj.currentPage) || 1;
     const pageSize = parseInt(obj.pageSize) || 5;
     const { key } = obj;
     if (key) {
-      const users = await this.ctx.model.Role.findAll({
+      const roles = await this.ctx.model.Role.findAll({
         attributes: {
           exclude: [ 'password', 'created_at', 'updated_at' ],
         },
@@ -36,16 +40,17 @@ export default class Roles extends Service {
           ],
         },
       });
-      return { users, totalCount: totalCount.count };
+      return { roles, totalCount: totalCount.count };
     }
-    const users = await this.ctx.model.Role.findAll({
+    const roles = await this.ctx.model.Role.findAll({
       limit: pageSize,
       offset: (currentPage - 1) * pageSize,
     });
     const totalCount = await this.ctx.model.Role.findAndCountAll();
-    return { users, totalCount: totalCount.count };
+    return { roles, totalCount: totalCount.count };
 
   }
+
   public async createRole(obj) {
     const data = await this.ctx.model.Role.create(obj);
     const roleData = (data as any).dataValues;

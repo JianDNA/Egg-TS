@@ -1,5 +1,6 @@
 import { Service } from 'egg';
 const { Op } = require('sequelize');
+import {Role} from "../model/role";
 export default class User extends Service {
 
   public async getAll() {
@@ -42,6 +43,9 @@ export default class User extends Service {
         attributes: {
           exclude: [ 'password', 'created_at', 'updated_at' ],
         },
+        include: [
+          { model: Role },
+        ],
         limit: pageSize,
         offset: (currentPage - 1) * pageSize,
         where: {
@@ -59,6 +63,9 @@ export default class User extends Service {
       attributes: {
         exclude: [ 'password', 'created_at', 'updated_at' ],
       },
+      include: [
+        { model: Role },
+      ],
       limit: pageSize,
       offset: (currentPage - 1) * pageSize,
     });
