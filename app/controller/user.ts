@@ -52,12 +52,16 @@ export default class UserController extends Controller {
       // 3.保存用户登录状态
       // ctx.session.user = user;
       // 3.生成jwt令牌
+      const obj: any = {};
+      obj.username = user.username;
+      obj.email = user.email;
+      obj.phone = user.phone;
       /**
        * 第一个参数: 需要保存的数据
        * 第二个参数: 签名使用的密钥
        * 第三个参数: 额外配置
        */
-      const token = jwt.sign(user, this.config.keys, { expiresIn: '7 days' });
+      const token = jwt.sign(obj, this.config.keys, { expiresIn: '7 days' });
       // user.token = token;
       ctx.cookies.set('token', token, {
         path: '/',

@@ -1,5 +1,6 @@
 import { Service } from 'egg';
-
+import { Role } from '../model/role';
+import { Rights } from '../model/rights';
 export default class User extends Service {
 
   public async getUser({ username, email, phone, password }) {
@@ -72,6 +73,11 @@ export default class User extends Service {
     return userdata;
   }
   private async findUser(options) {
-    return await this.ctx.model.User.findOne({ where: options });
+    return await this.ctx.model.User.findOne({
+      where: options,
+      include: [
+        { model: Role, include: [{ model: Rights }] },
+      ],
+    });
   }
 }
