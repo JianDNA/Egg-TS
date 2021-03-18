@@ -73,11 +73,43 @@ export default class User extends Service {
     return userdata;
   }
   private async findUser(options) {
-    return await this.ctx.model.User.findOne({
+    const user: any = await this.ctx.model.User.findOne({
       where: options,
       include: [
         { model: Role, include: [{ model: Rights }] },
       ],
     });
+    // 1.获取当前用户拥有的所有权限
+    let allRights: any[] = [];
+    user.roles.forEach((role: any) => {
+      role.rights.forEach(rights => {
+        allRights.push(rights);
+      });
+    });
+    // 2.剔除重复权限
+    const temp = {};
+    allRights = allRights.reduce((arr, item) => {
+      if (!temp[item.dataValues.rightsName]) {
+        arr.push(item);
+        temp[item.dataValues.rightsName] = true;
+      }
+      return arr;
+    }, []);
+    // 3.生成权限树
+    allRights = allRights.filter((outItem: any) => {
+      allRights.forEach((inItem: any) => {
+        if (outItem.dataValues.id === inItem.dataValues.pid) {
+          if (!outItem.dataValues.children) outItem.dataValues.children = [];
+          outItem.dataValues.children.push(inItem);
+        }
+      });
+      if (outItem.dataValues.level === 0) {
+        return true;
+      }
+      return false;
+
+    });
+    user.dataValues.rightsTree = allRights;
+    return user;
   }
 }
