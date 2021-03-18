@@ -5,8 +5,24 @@ export default class RightsController extends Controller {
   public async index() {
     const { ctx } = this;
     try {
-      const rights = await ctx.service.rights.getRightsList(ctx.query);
-      ctx.success(rights);
+      if (JSON.stringify(ctx.query) !== '{}') {
+        const rights = await ctx.service.rights.getRightsList(ctx.query);
+        ctx.success(rights);
+      } else {
+        let rights = await ctx.service.rights.getAllRights();
+        rights = rights.filter((outItem : any) => {
+          rights.forEach(inItem => {
+            // 如果是外层的儿子,九个他加进去
+            if (outItem.id === inItem.pid) {
+              if (!outItem.children) outItem.children = [];
+              outItem.children.push(inItem);
+            }
+          });
+          // 返回一级权限
+          return outItem.level === 0;
+        });
+        ctx.success(rights);
+      }
     } catch (e) {
       ctx.error(500, e.message);
     }
