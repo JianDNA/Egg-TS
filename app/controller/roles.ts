@@ -8,6 +8,21 @@ export default class RolesController extends Controller {
       let data;
       if (JSON.stringify(ctx.query) !== '{}') {
         data = await ctx.service.roles.getRolesList(ctx.query);
+        // 生成当前角色的权限树
+        data.roles.forEach((role: any) => {
+          // eslint-disable-next-line array-callback-return
+          role.dataValues.rightsTree = role.dataValues.rights.filter(outItem => {
+            role.dataValues.rights.forEach((inItem: any) => {
+              if (outItem.dataValues.id === inItem.dataValues.pid) {
+                if (!outItem.dataValues.children) outItem.dataValues.children = [];
+                outItem.dataValues.children.push(inItem);
+              }
+            });
+            if (outItem.dataValues.level === 0) {
+              return true;
+            }
+          });
+        });
         ctx.success(data);
       } else {
         data = await ctx.service.roles.getAllRoles();
