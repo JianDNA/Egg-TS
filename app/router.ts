@@ -25,4 +25,6 @@ export default (app: Application) => {
   // router.delete('/api/v1/roles/:id', controller.roles.destroy);
   // router.put('/api/v1/roles/:id', controller.roles.update);
   router.resources('roles', '/api/v1/roles', controller.roles);
+  // 权限管理
+  router.resources('rights', '/api/v1/rights/', controller.rights);
 };

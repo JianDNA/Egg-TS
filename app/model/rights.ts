@@ -17,7 +17,6 @@ rights_name/rights_desc/rights_state/rights_path/rights_pid/rights_type
 请求权限:能否发送某个请求
 权限名称/权限描述/权限是否可用/当前权限对应的请求地址/当前权限对应的请求类型/层级关系
 rights_name/rights_desc/rights_state/rights_path/rights_method/rights_pid/rights_type
-
 * */
 @Table
 export class Rights extends Model {
