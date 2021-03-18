@@ -14,7 +14,9 @@ export default class User extends Service {
       res = await this.findUser({ username, password });
     }
     try {
-      return res.dataValues;
+      // 注意点, 在sequelize中, 如果想返回虚拟字段的值, 就不能从dataValues中获取
+      //           dataValues中的都是数据库中查询出来的
+      return res;
     } catch (e) {
       throw new Error('用户名或者密码不正确');
     }
@@ -79,6 +81,7 @@ export default class User extends Service {
         { model: Role, include: [{ model: Rights }] },
       ],
     });
+    if (!user) { throw new Error('用户名或者密码不正确');}
     // 1.获取当前用户拥有的所有权限
     let allRights: any[] = [];
     user.roles.forEach((role: any) => {
