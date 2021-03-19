@@ -81,7 +81,7 @@ export default class User extends Service {
         { model: Role, include: [{ model: Rights }] },
       ],
     });
-    if (!user) { throw new Error('用户名或者密码不正确');}
+    if (!user) { throw new Error('用户名或者密码不正确'); }
     // 1.获取当前用户拥有的所有权限
     let allRights: any[] = [];
     user.roles.forEach((role: any) => {
@@ -92,9 +92,9 @@ export default class User extends Service {
     // 2.剔除重复权限
     const temp = {};
     allRights = allRights.reduce((arr, item) => {
-      if (!temp[item.dataValues.rightsName]) {
+      if (!temp[item.dataValues.id]) {
         arr.push(item);
-        temp[item.dataValues.rightsName] = true;
+        temp[item.dataValues.id] = true;
       }
       return arr;
     }, []);

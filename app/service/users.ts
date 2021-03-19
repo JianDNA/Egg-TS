@@ -1,6 +1,6 @@
 import { Service } from 'egg';
 const { Op } = require('sequelize');
-import {Role} from "../model/role";
+import { Role } from '../model/role';
 export default class User extends Service {
 
   public async getAll() {
