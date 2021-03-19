@@ -70,6 +70,7 @@ export default class UserController extends Controller {
         httpOnly: false,
         signed: false,
       });
+      ctx.session.user = user;
       ctx.success(user);
     } catch (e) {
       if (e.errors) {
